@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 🚀 Traefik (Reverse Proxy mit HTTPS)
   traefik:
@@ -12,42 +10,40 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./letsencrypt:/letsencrypt"
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - "node.role == manager"
+
+  # 🪴 Main website
+  generic-website:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - "/root/www:/usr/share/nginx/html:ro"
+    labels:
+      - "traefik.http.routers.static.rule=Host(`rdahl.de`)"
+      - "traefik.http.routers.static.entrypoints=websecure"
+      - "traefik.http.routers.static.tls.certresolver=letsencrypt"
 
   # 👨🏼 Torge's Website
   torge-website:
     image: ghcr.io/rdahl-de/torge:latest
     restart: unless-stopped
+    expose:
+      - "3000"
     labels:
+      - "traefik.http.services.torge-website.loadbalancer.server.port=3000"
       - "traefik.http.routers.torge.rule=Host(`torge.rdahl.de`)"
       - "traefik.http.routers.torge.entrypoints=websecure"
       - "traefik.http.routers.torge.tls.certresolver=letsencrypt"
-    deploy:
-      mode: replicated
-      replicas: 2
 
   # 👩🏼 Victoria's Website
-  victoria-website:
-    image: ghcr.io/rdahl-de/victoria:latest
-    restart: unless-stopped
-    labels:
-      - "traefik.http.routers.victoria.rule=Host(`victoria.rdahl.de`)"
-      - "traefik.http.routers.victoria.entrypoints=websecure"
-      - "traefik.http.routers.victoria.tls.certresolver=letsencrypt"
-    deploy:
-      mode: replicated
-      replicas: 2
+  # TODO
 
   # 🗽 Watchtower (automatic updates of containers)
   watchtower:

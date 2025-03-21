@@ -24,7 +24,7 @@ services:
     image: nginx:alpine
     restart: unless-stopped
     volumes:
-      - "/root/www:/usr/share/nginx/html:ro"
+      - "./www:/usr/share/nginx/html:ro"
     labels:
       - "traefik.http.routers.static.rule=Host(`rdahl.de`)"
       - "traefik.http.routers.static.entrypoints=websecure"

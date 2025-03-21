@@ -45,13 +45,24 @@ services:
   torge-website:
     image: ghcr.io/rdahl-de/torge:latest
     restart: unless-stopped
-    expose:
-      - "3000"
     labels:
       - "traefik.http.services.torge-website.loadbalancer.server.port=3000"
-      - "traefik.http.routers.torge.rule=Host(`torge.rdahl.de`)"
-      - "traefik.http.routers.torge.entrypoints=websecure"
-      - "traefik.http.routers.torge.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.torge-website.rule=Host(`torge.rdahl.de`)"
+      - "traefik.http.routers.torge-website.entrypoints=websecure"
+      - "traefik.http.routers.torge-website.tls.certresolver=letsencrypt"
 
   # 👩🏼 Victoria's website
   # TODO
+
+  # 📬 Synapse (matrix chat server)
+  synapse:
+    image: matrixdotorg/synapse:latest
+    restart: unless-stopped
+    volumes:
+      - ./matrix/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.synapse.loadbalancer.server.port=8008"
+      - "traefik.http.routers.synapse.rule=Host(`matrix.rdahl.de`)"
+      - "traefik.http.routers.synapse.entrypoints=websecure"
+      - "traefik.http.routers.synapse.tls.certresolver=letsencrypt"

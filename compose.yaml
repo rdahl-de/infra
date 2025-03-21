@@ -19,6 +19,17 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./letsencrypt:/letsencrypt"
 
+  # 🗽 Watchtower (automatic updates of containers)
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=30
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/root/.docker/config.json:/config.json"
+
   # 🦆 Main website
   generic-website:
     image: nginx:alpine
@@ -44,12 +55,3 @@ services:
 
   # 👩🏼 Victoria's website
   # TODO
-
-  # 🗽 Watchtower (automatic updates of containers)
-  watchtower:
-    image: containrrr/watchtower
-    restart: unless-stopped
-    command: --interval 30
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/root/.docker/config.json:/config.json"

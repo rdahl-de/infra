@@ -1,5 +1,5 @@
 services:
-  # 🚀 Traefik (Reverse Proxy mit HTTPS)
+  # 🚀 Traefik (reverse proxy)
   traefik:
     image: traefik:v2.10
     restart: unless-stopped
@@ -19,7 +19,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./letsencrypt:/letsencrypt"
 
-  # 🪴 Main website
+  # 🦆 Main website
   generic-website:
     image: nginx:alpine
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
       - "traefik.http.routers.static.entrypoints=websecure"
       - "traefik.http.routers.static.tls.certresolver=letsencrypt"
 
-  # 👨🏼 Torge's Website
+  # 👨🏼 Torge's website
   torge-website:
     image: ghcr.io/rdahl-de/torge:latest
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.torge.entrypoints=websecure"
       - "traefik.http.routers.torge.tls.certresolver=letsencrypt"
 
-  # 👩🏼 Victoria's Website
+  # 👩🏼 Victoria's website
   # TODO
 
   # 🗽 Watchtower (automatic updates of containers)

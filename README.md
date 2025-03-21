@@ -30,4 +30,3 @@ docker compose run -it --rm synapse generate
 ```
 
 Now, you can edit the homeserver.yaml file if necessary.
-Watch out for `server_name: "rdahl.de"` and `enable_registration: false`.

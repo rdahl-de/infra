@@ -60,6 +60,9 @@ services:
     restart: unless-stopped
     volumes:
       - ./matrix/data:/data
+    environment:
+      - SYNAPSE_SERVER_NAME=rdahl.de
+      - SYNAPSE_REPORT_STATS=no
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.synapse.loadbalancer.server.port=8008"

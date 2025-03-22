@@ -52,7 +52,14 @@ services:
       - "traefik.http.routers.torge-website.tls.certresolver=letsencrypt"
 
   # 👩🏼 Victoria's website
-  # TODO
+  victoria-website:
+    image: ghcr.io/rdahl-de/victoria:latest
+    restart: unless-stopped
+    labels:
+      - "traefik.http.services.victoria-website.loadbalancer.server.port=3000"
+      - "traefik.http.routers.victoria-website.rule=Host(`victoria.rdahl.de`)"
+      - "traefik.http.routers.victoria-website.entrypoints=websecure"
+      - "traefik.http.routers.victoria-website.tls.certresolver=letsencrypt"
 
   # 📬 Synapse (matrix chat server)
   synapse:

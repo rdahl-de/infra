@@ -68,3 +68,40 @@ services:
       - "traefik.http.routers.synapse.rule=Host(`matrix.rdahl.de`)"
       - "traefik.http.routers.synapse.entrypoints=websecure"
       - "traefik.http.routers.synapse.tls.certresolver=letsencrypt"
+
+  # 💒 Wordpress for our wedding website
+  wedding-wordpress:
+    image: wordpress
+    restart: always
+    environment:
+      # name of docker service
+      - WORDPRESS_DB_HOST=wedding-db
+      - WORDPRESS_DB_NAME=weddingdb
+      # shared credentials from .env file
+      - WORDPRESS_DB_USER=${WEDDING_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WEDDING_DB_PASS}
+    labels:
+      - "traefik.http.services.wedding-wordpress.loadbalancer.server.port=80"
+      - "traefik.http.routers.wedding-wordpress.rule=Host(`wedding.rdahl.de`)"
+      - "traefik.http.routers.wedding-wordpress.entrypoints=websecure"
+      - "traefik.http.routers.wedding-wordpress.tls.certresolver=letsencrypt"
+
+    volumes:
+      - wedding-wordpress:/var/www/html
+
+  # 🗄️ MySQL database for wordpress (wedding website)
+  wedding-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD='1'
+      - MYSQL_DATABASE=weddingdb
+      # shared credentials from .env file
+      - MYSQL_USER=${WEDDING_DB_USER}
+      - MYSQL_PASSWORD=${WEDDING_DB_PASS}
+    volumes:
+      - wedding-db:/var/lib/mysql
+
+volumes:
+  wedding-wordpress:
+  wedding-db:

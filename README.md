@@ -12,9 +12,16 @@ This repository host an infrastructure-as-code definition of the rdahl.de server
 
 [matrix.rdahl.de](https://matrix.rdahl.de) - A synapse matrix server.
 
+<!--
+I deliberately left out the wedding website here, because I want to avoid too many people finding it early.
+If you read this, congratulations, you sneaky son. keep slaying! 💅
+
+[wedding.rdahl.de](https://wedding.rdahl.de) - Nothing to see here 👀.
+-->
+
 ## running this
 
-Just clone the repository into /opt and do a quick `docker compose up -d`.
+Just clone the repository into `/opt` and do a quick `docker compose up -d`.
 
 Watchtower will take care of automatically deploying the latest images of all services.
 
@@ -35,3 +42,9 @@ docker compose run -it --rm synapse generate
 ```
 
 Now, you can edit the homeserver.yaml file if necessary.
+
+### dotenv
+
+To configure some services, a `.env` file is required.
+
+Please rename `example.env` to `.env` after cloning and change the secrets to something secret.

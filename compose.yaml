@@ -64,7 +64,6 @@ services:
       - SYNAPSE_SERVER_NAME=rdahl.de
       - SYNAPSE_REPORT_STATS=no
     labels:
-      - "traefik.enable=true"
       - "traefik.http.services.synapse.loadbalancer.server.port=8008"
       - "traefik.http.routers.synapse.rule=Host(`matrix.rdahl.de`)"
       - "traefik.http.routers.synapse.entrypoints=websecure"

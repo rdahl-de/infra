@@ -4,8 +4,13 @@ This repository host an infrastructure-as-code definition of the rdahl.de server
 
 ## public domains
 
-[torge.rdahl.de](https://torge.rdahl.de) - Torge Rosendahl's personal homepage.  
-[victoria.rdahl.de](https://victoria.rdahl.de) - Victoria Fricke's personal homepage.
+[rdahl.de](https://rdahl.de) - Serves this repository's `www` directory.
+
+[torge.rdahl.de](https://torge.rdahl.de) - Torge Rosendahl's personal homepage.
+
+<!--[victoria.rdahl.de](https://victoria.rdahl.de) - Victoria Fricke's personal homepage.-->
+
+[matrix.rdahl.de](https://matrix.rdahl.de) - A synapse matrix server.
 
 ## running this
 
@@ -18,7 +23,7 @@ Watchtower will take care of automatically deploying the latest images of all se
 You need to create `./letsencrypt/acme.json` with 600 permissions (root) after cloning:
 
 ```bash
-touch letsencrypt/acme.json && chmod 600 letsencrypt/acme.json
+mkdir -p letsencrypt && touch letsencrypt/acme.json && chmod 600 letsencrypt/acme.json
 ```
 
 ### synapse (matrix)

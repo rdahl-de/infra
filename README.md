@@ -8,7 +8,7 @@ This repository host an infrastructure-as-code definition of the rdahl.de server
 
 [torge.rdahl.de](https://torge.rdahl.de) - Torge Rosendahl's personal website.
 
-<!--[victoria.rdahl.de](https://victoria.rdahl.de) - Victoria Fricke's personal website.-->
+[victoria.rdahl.de](https://victoria.rdahl.de) - Victoria Fricke's personal website.
 
 [matrix.rdahl.de](https://matrix.rdahl.de) - A synapse matrix server.
 
